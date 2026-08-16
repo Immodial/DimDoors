@@ -64,7 +64,6 @@ public class PocketCommand {
     public static <T extends PocketCreator> ArgumentBuilder<CommandSourceStack, ?> placeOption(String name, ResourceKey<Registry<T>> resourceKey) {
         return literal(name).then(
                 argument("id", ResourceLocationArgument.id())
-                        .requires(CommandSourceStack::isPlayer)
                         .suggests((ctx, builder) -> getSuggestions(ctx.getSource().registryAccess(), resourceKey, builder))
                         .executes(context -> placePocket(
                                 context.getSource(),
@@ -181,23 +180,23 @@ public class PocketCommand {
             return 0;
         }
 
-        ServerPlayer player = source.getPlayerOrException();
         ServerLevel sourceLevel;
         BlockPos sourcePos;
 
         if (selectedSourcePos != null) {
-            sourceLevel = player.serverLevel();
+            sourceLevel = (ServerLevel) source.getLevel();
             sourcePos = normalizeSourcePos(sourceLevel, selectedSourcePos);
         } else if (targetEntity != null) {
             sourceLevel = (ServerLevel) targetEntity.level();
             sourcePos = normalizeSourcePos(sourceLevel, targetEntity.blockPosition());
         } else {
-            sourceLevel = player.serverLevel();
-            sourcePos = normalizeSourcePos(sourceLevel, player.blockPosition());
+            Entity sourceEntity = source.getEntityOrException();
+            sourceLevel = (ServerLevel) sourceEntity.level();
+            sourcePos = normalizeSourcePos(sourceLevel, sourceEntity.blockPosition());
         }
 
         BlockState sourceState = sourceLevel.getBlockState(sourcePos);
-        if (!canUseSource(player, sourcePos, sourceState)) {
+        if (!canUseSource(sourcePos, sourceState)) {
             source.sendFailure(Component.literal("Source position must be a raw rift, a door/trapdoor/portal that can host a rift, or replaceable space."));
             return 0;
         }
@@ -268,9 +267,8 @@ public class PocketCommand {
         return sourcePos;
     }
 
-    private static boolean canUseSource(ServerPlayer player, BlockPos sourcePos, BlockState sourceState) {
-        return (sourceState.canBeReplaced() || sourceState.getBlock() instanceof RiftVariantProvider)
-                && player.mayUseItemAt(sourcePos, Direction.UP, ItemStack.EMPTY);
+    private static boolean canUseSource(BlockPos sourcePos, BlockState sourceState) {
+        return (sourceState.canBeReplaced() || sourceState.getBlock() instanceof RiftVariantProvider); // mayUseItemAt might be important
     }
 
     public static <T extends PocketCreator> CompletableFuture<Suggestions> getSuggestions(RegistryAccess access, ResourceKey<Registry<T>> resourceKey, SuggestionsBuilder builder) {
