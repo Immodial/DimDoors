@@ -7,17 +7,13 @@
   "refmap": "dimdoors.refmap.json",
   "mixins": [
     "BlockAssemblyMixin",
-    "DetachedRiftSubLevelCollisionMixin",
-    "EntranceRiftSubLevelFixMixin",
     "RiftRegistrySableTrackingMixin",
     "RiftSableTrackingMixin",
     "ServerChunkCachePlotGuardMixin",
     "ServerPlayerPlotRescueMixin",
     "ServerPlayerSubLevelTrackingCleanupMixin",
-    "SubLevelHoldingChunkAccessor",
     "SubLevelHoldingChunkMapAccessor",
-    "SubLevelTrackingSystemDimensionChangeMixin",
-    "VoxelNeighborhoodStateMixin"
+    "SubLevelTrackingSystemDimensionChangeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

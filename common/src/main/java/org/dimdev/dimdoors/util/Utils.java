@@ -2,11 +2,17 @@ package org.dimdev.dimdoors.util;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.dimdev.dimdoors.recipe.TesselatingRecipe;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Utils {
     public static <T> T cast(Object register) {
@@ -48,5 +54,13 @@ public class Utils {
                 return pos.offset(xOffset, yOffset, zOffset);
             }
         };
+    }
+
+    public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, V>> mapEntryCollector() {
+        return Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue);
+    }
+
+    public static <K, V> void mergeMaps(Map<K, V> target, Map<K, V> source) {
+        source.forEach(target::putIfAbsent);
     }
 }

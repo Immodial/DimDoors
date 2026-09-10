@@ -12,6 +12,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -22,7 +23,7 @@ import org.dimdev.dimdoors.DimensionalDoors;
 import org.dimdev.dimdoors.api.util.Location;
 import org.dimdev.dimdoors.api.util.TeleportUtil;
 import org.dimdev.dimdoors.client.RiftCurves;
-import org.dimdev.dimdoors.compat.sable.SableHelper;
+import org.dimdev.dimdoors.util.LevelSpaceHelper;
 import org.dimdev.dimdoors.util.Utils;
 import org.dimdev.dimdoors.world.decay.Decay;
 import org.dimdev.dimdoors.world.decay.DecaySource;
@@ -147,7 +148,7 @@ public class DetachedRiftBlockEntity extends RiftBlockEntity<DetachedRiftBlockEn
         if (this.level instanceof ServerLevel serverLevel) {
             Vec3 localTargetPos = Vec3.atBottomCenterOf(this.worldPosition);
 
-            var frame = SableHelper.INSTANCE.projectTeleportFrame(serverLevel, location, localTargetPos, relativeAngle, velocity);
+            var frame = LevelSpaceHelper.INSTANCE.projectTeleportFrame(serverLevel, location, localTargetPos, relativeAngle, velocity);
 
             TeleportUtil.teleport(entity, this.level, frame.pos(), frame.angle(), frame.velocity());
         }
@@ -172,16 +173,13 @@ public class DetachedRiftBlockEntity extends RiftBlockEntity<DetachedRiftBlockEn
 
                 updateTimer = 0;
                 sync();
+
+                if (DimensionalDoors.getConfig().getGeneralConfig().enableRiftDecay && getData().getSize() > 20) {
+                    applySpreadDecay((ServerLevel) level, pos);
+                }
+
+                tryEndermanSpawn(level, pos);
             }
-
-
-
-            if (DimensionalDoors.getConfig().getGeneralConfig().enableRiftDecay /*&& level.random.nextInt(0, 100) <= weight*/ && getData().getSize() > 0) {
-                applySpreadDecay((ServerLevel) level, pos);
-            }
-
-            tryEndermanSpawn(level, pos);
-
 
 
             updateTimer++;

@@ -28,7 +28,6 @@
 # 6.3.0
 ------
 
-- Added new required dependency Liminal Library at version 1.13.0.
 - Bumped up minimum supported versions for the following dependencies:
     - Fabric Loader: 0.18.4
     - NeoForge: 21.1.228
@@ -42,6 +41,7 @@
 - Old Rift Key functional stripped away in favor of temporarily changing target dimensional door into target key type.
 - Fixed dimensional doors and dimensional portals not teleporting when used in valid open states.
 - Re-enabled rift spread decay and fixed the `decaysIntoAir` config option.
+- Endermen spawned by a rift no long target the player.
 - Fixed generated dimensional doors crashing when the source door already had waterlogging support.
 - Added a config option for generic Limbo death messages. (Immodial)
 - Added custom equip sounds for World Thread and Garment of Reality armors. (Immodial)
@@ -56,7 +56,7 @@
 - Command blocks that are powered or meant to automatically start will now do so when pockets are generated.
 - `/dimteleport` command's permission level has been changedhas entity selector support.
 - `/pocket` command now has a target instead of a locator, which refers to an entity to send to the pocket. Old functionality can be accomplished with execute at <locator> run pocket ...
-- Introduced a new system for rift based growth where rifts grow slower with a weight to them that increases the chance. This the first step to future proper reintroduction of rift scars.
+- Introduced a new system for rift based growth where rifts grow slower with a weight to them that increases the chance. This the first step to future proper reintroduction of rift scars. For now when an exposed rift is weight 20 or higher, it will start unraveling blocks around it.
 - Abstracted most Rift code into common interface
 - Improved resource loading.
 - Removed deprecated virtual type (Local, Relative, Global) and their corresponding language entries.

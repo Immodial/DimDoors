@@ -2,7 +2,7 @@ package org.dimdev.dimdoors.compat.sable.mixins;
 
 import net.minecraft.server.level.ServerLevel;
 import org.dimdev.dimdoors.api.util.Location;
-import org.dimdev.dimdoors.compat.sable.SableHelper;
+import org.dimdev.dimdoors.compat.sable.SableCompat;
 import org.dimdev.dimdoors.rift.registry.Rift;
 import org.dimdev.dimdoors.rift.registry.RiftRegistry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,26 +26,21 @@ public class RiftRegistrySableTrackingMixin {
     @Inject(method = "removeRift", at = @At("HEAD"))
     private void dimdoors$untrackRemovedRift(Location location, CallbackInfo ci) {
         ServerLevel level = location.getWorld();
-        if (level == null) {
-            return;
-        }
+        if (level == null) return;
 
         var registry = RiftRegistry.getInstance();
-        if (!registry.isRiftAt(location)) {
-            return;
-        }
 
-        SableHelper.INSTANCE.removeRiftTrackingPoint(level, registry.getRift(location));
+        if (!registry.isRiftAt(location)) return;
+
+        SableCompat.HELPER.removeRiftTrackingPoint(level, registry.getRift(location));
     }
 
     @Unique
     private void dimdoors$updateSableTrackingPoint(Location location) {
         ServerLevel level = location.getWorld();
-        if (level == null) {
-            return;
-        }
+        if (level == null) return;
 
         Rift rift = RiftRegistry.getInstance().getRift(location);
-        SableHelper.INSTANCE.updateRiftTrackingPoint(level, rift);
+        SableCompat.HELPER.updateRiftTrackingPoint(level, rift);
     }
 }

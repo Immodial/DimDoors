@@ -49,7 +49,6 @@ dependencies {
     api "org.jgrapht:jgrapht-core:${jgrapht_version}"
 
     api "com.github.DimensionalDevelopment:poly2tri.java:0.1.1"
-    compileOnly "org.dimdev:limlib-common-${minecraft_version}:${limlib_version}"
 
     compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rei}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:${rei}"
@@ -57,6 +56,7 @@ dependencies {
     compileOnlyApi "mezz.jei:jei-${minecraft_version}-lib:${jei}"
     compileOnlyApi "mezz.jei:jei-${minecraft_version}-common-api:${jei}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-common:${jei}"
+    compileOnly("foundry.imguimc:imguimc-common-${project.minecraft_version}:${project.imguimc_version}")
 }
 
 configurations {

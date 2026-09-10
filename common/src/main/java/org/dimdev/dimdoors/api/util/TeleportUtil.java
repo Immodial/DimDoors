@@ -15,7 +15,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import org.dimdev.dimdoors.DimensionalDoors;
-import org.dimdev.dimdoors.compat.sable.SableHelper;
+import org.dimdev.dimdoors.util.LevelSpaceHelper;
 import org.dimdev.dimdoors.entity.stat.ModStats;
 import org.dimdev.dimdoors.network.ServerPacketHandler;
 import org.dimdev.dimdoors.world.ModDimensions;
@@ -70,7 +70,7 @@ public final class TeleportUtil {
 
         // Clamp inside world border
         pos = clampToWorldBorder(pos, serverWorld.getWorldBorder());
-        SableHelper.INSTANCE.validateTeleportDestination(serverWorld, pos);
+        LevelSpaceHelper.INSTANCE.validateTeleportDestination(serverWorld, pos);
         float yaw = Mth.wrapDegrees(angle.getY());
         float pitch = Mth.clamp(Mth.wrapDegrees(angle.getX()), -90.0F, 90.0F);
 
@@ -95,9 +95,7 @@ public final class TeleportUtil {
             }
 
             // If you ever re-enable this, make sure it's safe on both loaders
-            // serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity.getId(), velocity));
-
-            ServerPacketHandler.syncPocketAddonsIfNeeded(serverPlayer, serverWorld, targetPos);
+            // serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity.getId(), velocity));;
 
             if (serverWorld.dimension() == ModDimensions.DUNGEON) {
                 serverPlayer.awardStat(ModStats.TIMES_BEEN_TO_DUNGEON);

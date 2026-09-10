@@ -21,7 +21,7 @@ import org.dimdev.dimdoors.client.effect.VoidDimensionSpecialEffects;
 import org.dimdev.dimdoors.compat.create.CreateCompatBlockEntityTypes;
 import org.dimdev.dimdoors.compat.create.SlidingEntranceRiftBlockEntityRenderer;
 import org.dimdev.dimdoors.item.ModItems;
-import org.dimdev.limlib.client.NeoForgeClientSided;
+import org.dimdev.dimcore.client.NeoForgeClientSided;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import java.util.List;
@@ -44,7 +44,6 @@ public class DimensionalDoorsForgeClient extends NeoForgeClientSided<Dimensional
     public DimensionalDoorsForgeClient(IEventBus bus, ModContainer container) {
         super(bus, container, DimensionalDoorsClient.INSTANCE);
         container.registerExtensionPoint(IConfigScreenFactory.class, (modContainer, screen) -> ConfigScreen.createScreen(screen));
-        DimensionalDoorsClient.INSTANCE.init(this);
 
         bus.addListener(DimensionalDoorsForgeClient::registerRecipeBookCategories);
         if (DimensionalDoors.getSided().isModLoaded("create")) {

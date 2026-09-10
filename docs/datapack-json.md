@@ -339,7 +339,8 @@ Generators may include a `builder` object:
     "type": "dimdoors:private_pocket",
     "addons": [
       {
-        "type": "dimdoors:dyeable"
+        "type": "dimdoors:dyeable",
+        "dye_color": "white"
       }
     ]
   },
@@ -393,20 +394,6 @@ Example:
 {
   "type": "dimdoors:dyeable",
   "dye_color": "white"
-}
-```
-
-#### `dimdoors:force_loaded`
-
-Adds force-loaded pocket behavior.
-
-Fields: none.
-
-Example:
-
-```json
-{
-  "type": "dimdoors:force_loaded"
 }
 ```
 
